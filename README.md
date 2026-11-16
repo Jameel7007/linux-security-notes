@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–8 complete, working on level 9 |
+| Bandit | Levels 0–9 complete, working on level 10 |
 
 ## Skills learned so far
 
