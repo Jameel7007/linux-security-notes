@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–12 complete, working on level 13 |
+| Bandit | Levels 0–13 complete, working on level 14 |
 
 ## Skills learned so far
 
@@ -144,6 +144,30 @@ mv old new           # rename (or move) a file
 
 - gzip and bzip2 **compress** a single file and need the right extension. tar **bundles** files into one box without compressing.
 - A file's extension is just a label. `file` tells the truth.
+
+### 11. SSH keys instead of passwords
+
+An SSH key comes in two halves:
+
+| Half | Lives on | Analogy |
+|---|---|---|
+| Public key | The server | The lock |
+| Private key | My computer | The key, which must stay secret |
+
+```bash
+scp -P 2220 user@host:remote-file .          # secure copy from a server to here (capital -P for port)
+chmod 600 private-key                         # only I can read/write it
+ssh -i private-key user@host -p 2220          # log in with the key, no password
+```
+
+**Permissions with `chmod`:** each digit is owner / group / others, adding read (4), write (2), execute (1).
+`600` = owner read+write, nobody else anything → `-rw-------`.
+SSH refuses to use a private key that others can read ("UNPROTECTED PRIVATE KEY FILE").
+
+### 12. Good habits on shared systems
+
+- `/tmp` is a shared scratch space that anyone can write to and that gets wiped. Use `mktemp -d` for an unguessable folder.
+- Clean up when done (`rm -rf` your own work folder, carefully). Leftover files leak secrets and are where investigators and attackers both look.
 
 ## Terminal productivity (macOS)
 
