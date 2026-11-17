@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–10 complete, working on level 11 |
+| Bandit | Levels 0–12 complete, working on level 13 |
 
 ## Skills learned so far
 
@@ -108,6 +108,43 @@ base64 -d file      # decode base64 back to normal text
 - base64 turns any data into plain letters, numbers, `+`, `/`, often ending in `=`.
 - It hides nothing: anyone can decode it instantly. Encoding changes how data *looks*; encryption needs a secret key.
 
+### 9. Letter substitution with `tr` (ROT13)
+
+```bash
+cat file | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+```
+
+- `tr` swaps characters one-for-one: the Nth character of the first list becomes the Nth of the second.
+- ROT13 shifts every letter 13 places. Doing it twice gets you back where you started.
+
+### 10. Hexdumps and layered compression
+
+Some files are wrapped like Russian dolls. The method is a loop:
+
+1. `file name` to identify the real type (it reads the contents, not the name)
+2. `mv` to give it the matching extension
+3. Open it with the matching tool
+4. Repeat until `file` says ASCII text
+
+| `file` says | Rename to | Open with |
+|---|---|---|
+| gzip compressed | `.gz` | `gzip -d name.gz` |
+| bzip2 compressed | `.bz2` | `bzip2 -d name.bz2` |
+| POSIX tar archive | `.tar` | `tar -xvf name.tar` |
+| ASCII text | | `cat name` |
+
+Other tools from this level:
+
+```bash
+mktemp -d            # make a private, randomly named work folder in /tmp
+cp ~/file .          # copy a file to here
+xxd -r hex.txt > out # turn a hexdump back into the original bytes
+mv old new           # rename (or move) a file
+```
+
+- gzip and bzip2 **compress** a single file and need the right extension. tar **bundles** files into one box without compressing.
+- A file's extension is just a label. `file` tells the truth.
+
 ## Terminal productivity (macOS)
 
 | Keys | Action |
@@ -129,4 +166,4 @@ base64 -d file      # decode base64 back to normal text
 
 ## Next up
 
-- Bandit level 11 onward: character translation (`tr`), compressed archives (`tar`, `gzip`, `bzip2`), and hex dumps (`xxd`).
+- Bandit level 13 onward: SSH keys and network services.
