@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–9 complete, working on level 10 |
+| Bandit | Levels 0–10 complete, working on level 11 |
 
 ## Skills learned so far
 
@@ -99,6 +99,15 @@ strings file | grep ===      # find readable text after a marker
 - **ASCII text** is clean, readable text. Labels like "data" or "extended-ASCII ... escape sequences" usually mean binary junk.
 - If binary output scrambles the terminal, `reset` fixes it.
 
+### 8. Encoding is not encryption: base64
+
+```bash
+base64 -d file      # decode base64 back to normal text
+```
+
+- base64 turns any data into plain letters, numbers, `+`, `/`, often ending in `=`.
+- It hides nothing: anyone can decode it instantly. Encoding changes how data *looks*; encryption needs a secret key.
+
 ## Terminal productivity (macOS)
 
 | Keys | Action |
@@ -120,4 +129,4 @@ strings file | grep ===      # find readable text after a marker
 
 ## Next up
 
-- Bandit level 9 onward: encoding (`base64`), character translation (`tr`), compressed archives (`tar`, `gzip`, `bzip2`), and hex dumps (`xxd`).
+- Bandit level 11 onward: character translation (`tr`), compressed archives (`tar`, `gzip`, `bzip2`), and hex dumps (`xxd`).
