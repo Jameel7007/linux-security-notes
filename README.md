@@ -184,9 +184,32 @@ SSH refuses to use a private key that others can read ("UNPROTECTED PRIVATE KEY 
 ## Key takeaways
 
 1. The shell has rules (spaces split words, `-` means option, `.` means hidden). Most "weird" problems come from those rules.
-2. Check what something is before you open it.
+2. Check what something is before you open it. A file's name is just a label.
 3. Small tools chained with pipes can do powerful things.
-4. AI can recall syntax, but understanding the system is what lets me judge whether a command or its output is right.
+4. Leave shared systems clean, and keep secrets (like private keys) locked down.
+
+## Memorising commands vs understanding concepts in the age of AI
+
+A question I asked myself while learning: do I need to memorise all these commands when AI tools exist?
+
+My conclusion: **mostly understand the concepts, but keep a small core automatic.**
+
+**Know by heart** (it comes naturally from use): `ls`, `cd`, `pwd`, `cat`, `cp`, `mv`, `rm`, `grep`, `find`, `|`, `ssh`, `chmod`, `file`, plus Tab, Up arrow and Ctrl+C.
+These get typed constantly, and AI isn't always available: offline servers, secure workplaces, live incidents, interviews and certifications.
+
+**Understand, but look up the details:** `tar` flags, `tr` ranges, `xxd`, exact `find` options. Knowing the tool exists and what it does matters; the exact syntax can come from `man`, `--help` or AI.
+
+**What AI can't replace:**
+
+| Skill | Why it still matters |
+|---|---|
+| Knowing what's possible | You can't ask for a tool you don't know exists |
+| Breaking a problem into steps | e.g. identify → choose tool → apply → repeat |
+| Reading output and errors | Understanding "Permission denied" or "unknown suffix" |
+| Judging AI's answers | AI can be confidently wrong, and `rm -rf` has no undo |
+| Security instincts | Don't trust file names, protect keys, clean up after yourself |
+
+My test: could I explain *why* each command works, even if I'd look up the exact spelling? If yes, I've learned what matters.
 
 ## Next up
 
