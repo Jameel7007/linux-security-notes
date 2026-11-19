@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–15 complete, working on level 16 |
+| Bandit | Levels 0–16 complete, working on level 17 |
 
 ## Skills learned so far
 
@@ -200,6 +200,32 @@ Reading the output:
 - Never send passwords over unencrypted connections. That's why websites use `https://`.
 
 How I'd find this tool on my own: read the goal, notice the constraint ("must use SSL/TLS"), try the tool I know (`nc`) and see why it isn't enough, then use hints, `man`, search, or AI to find the right one.
+
+### 15. Port scanning and service detection with `nmap`
+
+```bash
+nmap localhost -p 31000-32000                 # which ports in this range are open?
+nmap -sV localhost -p 31046,31518,31790       # what service is behind each open port?
+```
+
+- A scan only says which doors are **open**. `-sV` (service/version detection) talks to each one to identify it, so it's much slower.
+- Read the clues: `echo` services just repeat what you send; a TLS service that replies "Wrong! Please enter the correct password" is the one that wants something.
+- Pressing the space bar during a long nmap scan prints progress.
+
+**Ethics:** only scan systems you have written permission to scan (wargames, labs, your own devices, bug bounty scopes). Unauthorised scanning can get you reported, blocked, or worse, and it damages trust in a field built on trust.
+
+### 16. Debugging a copied SSH key
+
+```bash
+pbpaste > key.file        # macOS: save the clipboard to a file
+head -1 key.file          # check the first line
+tail -1 key.file          # check the last line
+echo >> key.file          # append a newline (>> adds, > overwrites)
+ssh-keygen -y -f key.file # test that a private key is valid
+```
+
+- `Load key ...: invalid format` often means the file is missing its final newline. zsh hints at this by printing `%` right after the last line.
+- The clipboard holds only the last thing copied.
 
 ## Terminal productivity (macOS)
 
