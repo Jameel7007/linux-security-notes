@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–13 complete, working on level 14 |
+| Bandit | Levels 0–14 complete, working on level 15 |
 
 ## Skills learned so far
 
@@ -168,6 +168,18 @@ SSH refuses to use a private key that others can read ("UNPROTECTED PRIVATE KEY 
 
 - `/tmp` is a shared scratch space that anyone can write to and that gets wiped. Use `mktemp -d` for an unguessable folder.
 - Clean up when done (`rm -rf` your own work folder, carefully). Leftover files leak secrets and are where investigators and attackers both look.
+
+### 13. Ports and talking to network services with `nc`
+
+A server is like a building with 65,535 numbered doors (**ports**). Different services wait behind different doors: SSH on 22, HTTPS on 443, and so on.
+
+```bash
+nc localhost 30000    # open a raw connection to port 30000 on this machine
+```
+
+- `nc` (netcat) opens a plain connection so you can type straight to a service and read its reply.
+- `localhost` means "this same machine."
+- `Ctrl+C` closes the connection.
 
 ## Terminal productivity (macOS)
 
