@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–14 complete, working on level 15 |
+| Bandit | Levels 0–15 complete, working on level 16 |
 
 ## Skills learned so far
 
@@ -180,6 +180,26 @@ nc localhost 30000    # open a raw connection to port 30000 on this machine
 - `nc` (netcat) opens a plain connection so you can type straight to a service and read its reply.
 - `localhost` means "this same machine."
 - `Ctrl+C` closes the connection.
+
+### 14. Encrypted connections with SSL/TLS
+
+`nc` sends plain text, like a postcard anyone on the network can read. TLS puts the conversation in a locked envelope.
+
+```bash
+openssl s_client -connect localhost:30001   # open a TLS-encrypted connection, then type your message
+```
+
+How TLS works:
+1. **ID check:** the server presents a certificate to prove who it is.
+2. **Handshake:** both sides agree on a shared secret key.
+3. **Encrypted conversation:** everything after is scrambled with that key.
+
+Reading the output:
+- `self-signed certificate` means the server signed its own ID card. That's fine for practice, but on the real web it's a warning sign; trusted sites use certificates signed by a recognised authority.
+- `Protocol: TLSv1.3` and the cipher line show how strong the encryption is.
+- Never send passwords over unencrypted connections. That's why websites use `https://`.
+
+How I'd find this tool on my own: read the goal, notice the constraint ("must use SSL/TLS"), try the tool I know (`nc`) and see why it isn't enough, then use hints, `man`, search, or AI to find the right one.
 
 ## Terminal productivity (macOS)
 
