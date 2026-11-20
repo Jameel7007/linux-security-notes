@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–17 complete, working on level 18 |
+| Bandit | Levels 0–18 complete, working on level 19 |
 
 ## Skills learned so far
 
@@ -243,6 +243,15 @@ diff old.txt new.txt
 - `42c42` means line 42 **c**hanged (`a` = added, `d` = deleted).
 - `<` lines come from the first file, `>` lines from the second.
 - Real-world use: spotting what changed in config files, code, or logs, for example after a suspected intrusion.
+
+### 18. Running a single command over SSH
+
+```bash
+ssh user@host -p 2220 cat readme   # run one command remotely, print the result, disconnect
+```
+
+- A normal login starts an interactive shell, which runs startup files like `.bashrc`. If that file is booby-trapped (e.g. logs you out instantly), you can still run a command directly without opening the interactive shell.
+- Real-world use: quick remote checks and automation scripts (`ssh server uptime`), and a reminder that startup files are a common place for attackers to hide persistence.
 
 ## Terminal productivity (macOS)
 
