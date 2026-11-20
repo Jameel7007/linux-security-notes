@@ -112,6 +112,46 @@ The device info that anyone on the Wi-Fi could read included: model, exact softw
 
 **Lesson 2:** even while refusing, the device announced its software version in a response header (`Server: Roku/16.x`). These **banners** help attackers look up known flaws, which is one reason keeping devices updated matters.
 
+## 7. My own computer: what is *it* exposing?
+
+```bash
+sudo lsof -i -P | grep LISTEN    # every program listening for connections
+```
+
+| Listening on | Meaning | What I found |
+|---|---|---|
+| `*:port` | Reachable from **any network**, including other devices on the Wi-Fi | One Apple system service (`rapportd`, used for Continuity features like Handoff and Universal Clipboard with my own Apple devices) |
+| `localhost:port` | Reachable **only from the computer itself** | Several app processes talking to themselves internally |
+
+**Finding:** only one built-in system service was reachable from the network. No unexpected or forgotten servers. Running this check occasionally and looking for anything new listening on `*` is a simple way to spot suspicious software.
+
+## 8. Wi-Fi and wireless settings
+
+```bash
+sudo wdutil info    # macOS: detailed Wi-Fi, Bluetooth and AirDrop status
+```
+
+| Setting | Found | Assessment |
+|---|---|---|
+| Wi-Fi encryption | WPA2 Personal | 🟢 Solid; WPA3 (or WPA2/WPA3 mixed mode) is the upgrade |
+| Bluetooth discoverable | No | 🟢 Not findable by strangers |
+| AirDrop discovery | Everyone | 🟡 Anyone nearby can see the computer and send files; changed recommendation: **Contacts Only** |
+| Upstream DNS | A second private network address | 🟡 Revealed a **second router** (the internet provider's modem) in front of the mesh router |
+
+### Discovering a second router (double NAT)
+
+The DNS settings pointed to an address on a *different* private network from my own. That revealed the real layout:
+
+```
+Internet → ISP modem → mesh router → my devices
+```
+
+Two routers in a row (**double NAT**) is common and not dangerous in itself, but the ISP modem is another device that needs its default admin and Wi-Fi passwords changed (and its own Wi-Fi turned off if unused).
+
+**Lesson:** details that look like boring configuration (a DNS address) can reveal how a network is really built.
+
+**Sharing habit:** diagnostic output like this contains MAC addresses, network names and paired device names. Redact them before sharing anything publicly.
+
 ## Summary
 
 | Device | Exposure |
@@ -122,6 +162,10 @@ The device info that anyone on the Wi-Fi could read included: model, exact softw
 | Roku | 🟡 Basic device info readable; apps and control blocked |
 | TV 1 | 🟡 AirPlay + one unknown service |
 | TV 2 | 🟡 Many casting services: largest attack surface |
+| My computer | 🟢 One system service reachable on the network |
+| Wi-Fi | 🟢 WPA2 (WPA3 available as an upgrade) |
+| AirDrop | 🟡 Discoverable by everyone |
+| ISP modem | 🟡 A second router to secure |
 
 Nothing alarming was found. Open ports mostly matched features working as designed.
 
@@ -132,13 +176,16 @@ Nothing alarming was found. Open ports mostly matched features working as design
 3. Put IoT devices and guests on a separate guest network
 4. Turn off casting features that aren't used, or require a code to connect
 5. Use strong, unique passwords and two-factor login on IoT app accounts
-6. Confirm WPA2/WPA3 Wi-Fi encryption, a long Wi-Fi password, and WPS off
+6. Switch Wi-Fi to WPA2/WPA3 mixed mode if supported; use a long Wi-Fi password; keep WPS off
+7. Set AirDrop to **Contacts Only**
+8. Secure the ISP modem: change default passwords, disable its Wi-Fi if unused
+9. Keep the computer's firewall on and turn off unused sharing services
 
 ## What this assessment did *not* cover
 
 - All 65,535 TCP ports on every device, and UDP ports
 - Checking discovered software versions against known vulnerabilities
-- Wi-Fi configuration and router firmware version
+- Router firmware version and the ISP modem itself
 - How the network looks from the internet side
 - The devices' cloud services
 
@@ -151,4 +198,6 @@ Nothing alarming was found. Open ports mostly matched features working as design
 3. **Find → identify → test → explain.** The basic loop of a security assessment.
 4. **Check evidence, don't assume.** Status codes, not silence.
 5. **More features = more open doors.** The smart TV with the most features had the most exposure.
-6. **Only test what you own or have written permission to test.**
+6. **Check yourself too.** Your own computer is part of the network.
+7. **Boring settings reveal structure.** A DNS address exposed a second router.
+8. **Only test what you own or have written permission to test.**
