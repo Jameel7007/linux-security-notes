@@ -13,6 +13,10 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 |---|---|
 | Bandit | Levels 0–19 complete, working on level 20 |
 
+## Projects
+
+- [Home network security assessment](home-network-assessment.md): mapping and assessing the devices on my own Wi-Fi with `arp`, `nmap` and `curl`
+
 ## Skills learned so far
 
 ### 1. Connecting to a remote server with SSH
