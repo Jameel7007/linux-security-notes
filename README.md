@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–16 complete, working on level 17 |
+| Bandit | Levels 0–17 complete, working on level 18 |
 
 ## Skills learned so far
 
@@ -226,6 +226,23 @@ ssh-keygen -y -f key.file # test that a private key is valid
 
 - `Load key ...: invalid format` often means the file is missing its final newline. zsh hints at this by printing `%` right after the last line.
 - The clipboard holds only the last thing copied.
+
+### 17. Comparing files with `diff`
+
+```bash
+diff old.txt new.txt
+```
+
+```
+42c42
+< line from the first file
+---
+> line from the second file
+```
+
+- `42c42` means line 42 **c**hanged (`a` = added, `d` = deleted).
+- `<` lines come from the first file, `>` lines from the second.
+- Real-world use: spotting what changed in config files, code, or logs, for example after a suspected intrusion.
 
 ## Terminal productivity (macOS)
 
