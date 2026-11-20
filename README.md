@@ -11,7 +11,7 @@ My learning log as I build hands-on cybersecurity skills, starting with the Linu
 
 | Wargame | Status |
 |---|---|
-| Bandit | Levels 0–18 complete, working on level 19 |
+| Bandit | Levels 0–19 complete, working on level 20 |
 
 ## Skills learned so far
 
@@ -252,6 +252,25 @@ ssh user@host -p 2220 cat readme   # run one command remotely, print the result,
 
 - A normal login starts an interactive shell, which runs startup files like `.bashrc`. If that file is booby-trapped (e.g. logs you out instantly), you can still run a command directly without opening the interactive shell.
 - Real-world use: quick remote checks and automation scripts (`ssh server uptime`), and a reminder that startup files are a common place for attackers to hide persistence.
+
+### 19. setuid: a program that runs as its owner
+
+```
+-rwsr-x---  1  bandit20  bandit19  ...  bandit20-do
+```
+
+- Normally a program runs with **my** permissions. A **setuid** program (`s` instead of `x` in the owner's permissions) runs with its **owner's** permissions, whoever starts it.
+- Analogy: a hotel housekeeper with a master card does one task for a guest whose own card can't open that room.
+
+```bash
+whoami                                       # bandit19
+./bandit20-do whoami                         # bandit20
+./bandit20-do cat /etc/bandit_pass/bandit20  # read a file only bandit20 can read
+```
+
+- Real-world use: `passwd` is setuid root, so ordinary users can change their own password in a root-only file.
+- Security angle: a careless setuid program that runs *any* command is a gift to attackers. If it's owned by root, it means full **privilege escalation**. Checking for setuid files is a standard step when auditing a Linux system.
+- Discovery habit: read the goal, look closely (`ls -l`), notice what's unusual (an `s`), let the program explain itself (run it with no arguments or `--help`), and look up anything new.
 
 ## Terminal productivity (macOS)
 
